@@ -97,11 +97,12 @@ def printDb(session):
           state_string = ""
           for x in range(0, len(state_tuple)):
             state_string += str(state_tuple[x])
+          givenMitigator = ""
           for c in state.allowed_classes:
             beamClass = session.query(models.BeamClass).filter(models.BeamClass.id==c.beam_class_id).one()
             mitigationDevice = session.query(models.MitigationDevice).filter(models.MitigationDevice.id==c.mitigation_device_id).one()
+            givenMitigator += "[" + mitigationDevice.name + "@" + beamClass.name + "] " #accounting for multiple mitigators
           givenState = deviceState.name
-          givenMitigator = "[" + mitigationDevice.name + "@" + beamClass.name + "] "
           print ("{:{state_pad}}".format(state_string, state_pad = d_state_width-3)),
           print ("| {:{key_pad}} | {:{value_pad}} |".format(givenState, givenMitigator,
                                                             key_pad = d_name_width-2,value_pad = d_mitigation_width-2))
